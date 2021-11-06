@@ -1,15 +1,22 @@
 ﻿<template>
         <div class="formAddNewCost visible">
-          <input type="text" placeholder="Название" v-model="paymentDesc">
+          <!-- <input type="text" placeholder="Название" v-model="paymentDesc"> -->
+            <selectCategory v-model="paymentDesc"/>
           <input type="text" placeholder="Количество" v-model="paymentAmount">
           <input type="date" v-model="paymentDate">
-           <input id="date" type="button" value="Добавить" @click="onSaveClick">
+          <input id="date" type="button" value="Добавить" @click="onSaveClick">
         </div>
 </template>
 
 
 <script>
+import selectCategory from './selectCategory.vue'
+
 export default {
+  
+  components:{
+     selectCategory,
+  },
     data() {
         return {
             paymentDesc:'',

@@ -7,6 +7,8 @@
       <addNewCostBtn/>
       <tableContent :items="paymentsList"/>
       <formNewCost @addNewPayment="addNewPayment"/>
+      <pagination @paginate="changePage" :length="5" :cur="page" />
+        <p>Total price: {{getFPV}} </p>   
 </div>
 </template>
  
@@ -15,44 +17,51 @@
 import addNewCostBtn from './components/addNewCostBtn.vue'
 import tableContent from './components/tableContent.vue'
 import formNewCost from './components/formNewCost.vue'
+import pagination from './components/paginationNumber.vue'
+import {mapGetters, mapMutations} from 'vuex'
+
 export default {
   components: {
  addNewCostBtn,
  tableContent,
- formNewCost
+ formNewCost,
+ pagination
   },
   data() {
-    return {
-      paymentsList: [], // массив трат
-    }
+      return {
+     page:1,
+     
+      }
   },
   methods: {
-    fetchData(){
-      return [
-      {
-            paymentDesc:'Sport',
-            paymentAmount:3000,
-            paymentDate:'23-09-2021',
-      },
-      {     
-            paymentDesc:'Food',
-            paymentAmount:1500,
-            paymentDate:'25.09.2021',
-      },
-      {
-        paymentDesc:'Transport',
-            paymentAmount:1000,
-            paymentDate:'25-09-2021',
-      },
-    ]
-    },
+    ...mapMutations({
+      addData: 'addPaymentListData'
+    }),
+    
     addNewPayment (data) {
-      this.paymentsList = [...this.paymentsList, data]
+      this.addData(data)
     },
+    changePage(p){
+      this.page = p;
+      this.$store.dispatch('fetchData', this.page)
+
+    }
   },
-  // как только шаблон создается на странице, заполняем массив
+    computed: {
+     ...mapGetters({
+     paymentsList: 'getPaymentsList'
+    }),
+    getFPV () {
+      return this.$store.getters.getFullPaymentValue
+    },
+   
+  },
+
   created () {
-  this.paymentsList = this.fetchData()
+    // this.$store.commit('setPaymentsListData', this.fetchData());
+      this.$store.dispatch('fetchData', this.page)
+      this.$store.dispatch('loadCategories')
+      
 },
 
 }
