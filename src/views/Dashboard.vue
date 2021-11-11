@@ -1,13 +1,10 @@
 <template>
       <div>
-    <nav class="content">
-      <a href="#dashboard">Deshboard </a> /
-      <a href="#about">About</a> /
-      <a href="#notfound">404</a> /
-    </nav>
-
     <main class="content app-border">
           <h1 >My personal cost</h1>
+
+          <fastPayment @addNewPayment="addNewPayment" />
+
 
       <addNewCostBtn/>
       <tableContent :items="paymentsList"/>
@@ -24,6 +21,7 @@ import tableContent from '../components/tableContent.vue'
 import formNewCost from '../components/formNewCost.vue'
 import pagination from '../components/paginationNumber.vue'
 import {mapGetters, mapMutations} from 'vuex'
+import fastPayment from '../components/addFastPayment.vue'
 
 export default {
     name: "Dashboard",
@@ -32,12 +30,13 @@ export default {
  tableContent,
  formNewCost,
  pagination,
-    
+ fastPayment   
   },
   data() {
       return {
      page:1,
-     
+     routeCategory: '',
+     routeValue: 0
       }
   },
    methods: {
@@ -46,7 +45,8 @@ export default {
     }),
     
     addNewPayment (data) {
-      this.addData(data)
+      this.addData(data);
+     debugger
     },
     changePage(p){
       this.page = p;
@@ -54,6 +54,7 @@ export default {
 
     }
   },
+  
     computed: {
      ...mapGetters({
      paymentsList: 'getPaymentsList'
@@ -61,13 +62,15 @@ export default {
     getFPV () {
       return this.$store.getters.getFullPaymentValue
     },
+    
    
   },
+  
 
 }
 </script>
 
-<style lang="scss" module>
+<style lang="scss" >
  .app-border{
    border: 1px solid black;
  }

@@ -1,7 +1,16 @@
 <template>
 <div id="App" class="project">
-   <router-link to="/dashboard">Dashboard</router-link>
-   <router-link to="/about">About</router-link>
+
+<nav>
+   <router-link to="/dashboard">Dashboard</router-link> /
+    <router-link to="/about">about</router-link> / 
+   <router-link to="/notfound">notfound</router-link> /
+</nav>
+
+    <main>
+     <router-view/>
+    </main>
+
 </div>
 </template>
  
